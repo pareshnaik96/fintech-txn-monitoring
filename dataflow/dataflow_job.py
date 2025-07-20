@@ -1,6 +1,13 @@
+import os
+import shutil
 import json
 import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
+
+# Clean output folder before pipeline runs
+output_dir = 'output'
+if os.path.exists(output_dir):
+    shutil.rmtree(output_dir)
 
 class EnrichTransaction(beam.DoFn):
     def process(self, element):
@@ -11,7 +18,7 @@ class EnrichTransaction(beam.DoFn):
 
 pipeline_options = PipelineOptions.from_dictionary({
     'streaming': True,
-    'runner': 'DirectRunner'  # Change to DataflowRunner for GCP deployment
+    'runner': 'DirectRunner'
 })
 
 with beam.Pipeline(options=pipeline_options) as p:
@@ -20,3 +27,4 @@ with beam.Pipeline(options=pipeline_options) as p:
      | 'EnrichTransaction' >> beam.ParDo(EnrichTransaction())
      | 'WriteToJSON' >> beam.io.WriteToText('output/flagged', file_name_suffix=".json")
     )
+    

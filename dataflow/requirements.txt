@@ -1,0 +1,4 @@
+kafka-python
+apache-beam==2.56.0
+google-cloud-pubsub
+pytest

@@ -1,0 +1,4 @@
+parameters:
+  inputTopic: "projects/transactions-466418/topics/transactions"
+  outputTableSpec: "transactions-466418:fintech_data.transactions"
+  alertTopic: "projects/transactions-466418/topics/suspicious-alerts"
